@@ -1,0 +1,36 @@
+{% extends 'users/staff_base.html' %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-4 content-section mr-5" style="overflow: auto;height: 300px">
+            <h2>Crop Wise Yield</h2>
+                <ul class="list-group mt-4">
+                    {% for crop, yield in crop_yield.items %}
+                        <li class="list-group-item border-top-0 border-right-0 border-left-0">
+                            <span style="font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace">
+                                <h4>{{ crop }} : </h4>
+                            </span>
+                            {% if yield >= avg_yield %}
+                                <span style="color: green">{{ yield }} Qt</span>
+                            {% else %}
+                                <span class="font-weight-bold" style="color: rgba(255,0,0,0.7)">{{ yield }} Qt</span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+        </div>
+
+        <div class="content-section col-md-4 ml-5" style="overflow: auto;height: 300px">
+            <h4>Crop wise Land in Cultivation</h4>
+                <ul class="list-group mt-4">
+                    {% for crop, land in crop_land.items %}
+                        <li class="list-group-item border-top-0 border-right-0 border-left-0">
+                            <span style="font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace">
+                                <h4>{{ crop }} : </h4>
+                                <p>{{ land }} acres</p>
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+        </div>
+    </div>
+{% endblock content %}

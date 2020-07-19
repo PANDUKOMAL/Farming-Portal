@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-form">
+    <div class="container">
+        <form action="{% url 'post-edited' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h2><b>Edit post</b></h2>
+            <div class="form-group">
+                <input type="text" value="{{post.slug}}" name="slug" hidden>
+                <label for="title" style="color: #000000;">Title</label>
+                <input class="form-control" type="text" placeholder="Title" name="title" value="{{post.title}}" required>
+            </div>
+            <div class="form-group">
+                <label for="content" style="color: #000000;">Content</label>
+                <textarea class="form-control" placeholder="Write your content here..." name="content" rows="10" required>{{post.content}}</textarea>
+            </div>
+            <div class="form-group">
+                <input type="text" value="{{post.image}}" name="prev-img" hidden>
+                <label for="image" style="color: #000">Image</label>
+                <label for="image" style="color: #555;width:700px;border: 1px solid #ccc;border-radius:4px;padding: 4px;background-color:#fff;"><span style="border: 1px solid #cccccc;cursor:pointer;padding: 2px;">Choose File</span>{% if post.image %}Uploaded File: {% else %} No file chosen {% endif %} {{ post.image }}</label>
+                <input class="form-control" type="file" name="image" id="image" hidden>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form><br>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block content %}
+<div class="content-width">
+    <span class="heading"><b>Top Picks</b></span>
+        <div class="slideshow">
+          <div class="slideshow-items">
+              {% for item in top_picks %}
+              <div class="item">
+              <div class="item-image-container">
+                  {% if item.image %}
+                    <img class="item-image" src="{{item.image.url}}" width="500" height="311" margin-left="20%">
+                  {% else %}
+                    <img class="item-image" src="{% static 'no_image.png' %}"  width="500" height="311" margin-left="20%">
+                  {% endif %}
+              </div>
+              <div class="item-header">
+                <span class="vertical-part"><b>Read Now</b></span>
+              </div>
+              <div class="item-description">
+                <span class="vertical-part">
+                  <b>{{item.title}}</b>
+                </span>
+              </div>
+            </div>
+              {% endfor %}
+          </div>
+            <div class="controls">
+            <ul>
+              <li class="control" data-index="0"></li>
+              <li class="control" data-index="1"></li>
+              <li class="control" data-index="2"></li>
+            </ul>
+        </div>
+  </div>
+</div>
+<script src="{% static 'slide.js' %}"></script>
+<div class="posts-container">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="blog_posts">
+                <h1><b>Latest Posts
+                {% if user.is_authenticated %}
+                <a id="home-btn" class="btn btn-primary" href="{% url 'post-form' %}">Add Post</a>
+                {% else %}
+                <button id="home-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+                  Login to your account
+                </button>
+                {% endif %}
+            </b></h1>
+                {% for post in posts.object_list %}
+                {% if post.published_on %}
+                <div class="blog-container" id="blog-posts">
+                    {% if post.image %}
+                    <img id="img-home" src="{{ post.image.url }}" alt="" width="250" height="160">
+                    {% else %}
+                    <img id="img-home" src="{% static 'no_image.png' %}" alt="" width="250" height="160">
+                    {% endif %}
+                    <div class="post-list">
+                        <h2><a class='post-title' href="{% url 'post-detail' slug=post.slug %}"><b>{{ post.title }}</b></a></h2>
+                        {% if post.edited_on %}
+                        <small>{{ post.edited_on }} | Edited</small>
+                        {% else %}
+                        <small>{{ post.published_on }}</small>
+                        {% endif %}<br>
+                        <small>Posted by {{ post.author }}</small>
+                        <p>{{ post.content | slice:":150" }}</p>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                <br>
+                <div>
+                    <nav class="pagination-nav" aria-label="page navigation">
+                    <ul class="pagination">
+                    {% if posts.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{posts.previous_page_number}}">Previous</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#" aria-disabled="true">Previous</a></li>
+                    {% endif %}
+                    {% for pg in posts.paginator.page_range %}
+                    {% if posts.number == pg %}
+                    <li class="page-item active"><a class="page-link" href="?page={{pg}}">{{pg}} <span class="sr-only">(current)</span></a></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{pg}}">{{pg}}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if posts.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{posts.next_page_number}}">Next</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><a class="page-link" href="#" aria-disabled="true">Next</a></li>
+                    {% endif %}
+                    </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<br><br>
+{% endblock %}
