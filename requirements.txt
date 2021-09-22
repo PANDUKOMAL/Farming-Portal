@@ -1,7 +1,7 @@
 flask
 stripe
 Crypto
-Django==3.0.4
+Django==3.1.13
 requests==2.23.0
 Pillow==7.0.0
 django-crispy-forms==1.9.0
