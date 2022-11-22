@@ -3,5 +3,5 @@ stripe
 Crypto
 Django==3.0.4
 requests==2.23.0
-Pillow==7.0.0
+Pillow==9.3.0
 django-crispy-forms==1.9.0
